@@ -36,7 +36,7 @@ Poinnya: async **tidak** mempercepat server (server tetap lambat). Async mengisi
 ## Development
 
 ```bash
-pip install -r requirements.txt   # atau: pip install pytest requests beautifulsoup4 httpx
+pip install pytest requests beautifulsoup4 httpx
 pytest
 ```
 
