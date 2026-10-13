@@ -2,36 +2,36 @@
 
 [![CI](https://github.com/Chrismastian/python-web-scraper/actions/workflows/ci.yml/badge.svg)](https://github.com/Chrismastian/python-web-scraper/actions/workflows/ci.yml)
 
-Web scraper sederhana untuk belajar Python: ambil HTML dari internet, ubah jadi data terstruktur, lalu **bandingkan versi sync (`requests`) vs async (`httpx`)**.
+A simple web scraper built while learning Python: fetch HTML from the internet, turn it into structured data, and **compare a sync (`requests`) version against an async (`httpx`) one**.
 
-Studi kasus: [quotes.toscrape.com](https://quotes.toscrape.com/) (situs latihan scraping).
+Case study: [quotes.toscrape.com](https://quotes.toscrape.com/) (a scraping practice site).
 
-## Cara pakai
+## Usage
 
-Ambil 1 halaman (sync):
+Fetch a single page (sync):
 
 ```bash
 python -m scraper.cli https://quotes.toscrape.com/
 ```
 
-Ambil 10 halaman sekaligus (async):
+Fetch 10 pages at once (async):
 
 ```bash
 python -m scraper.async_fetch
 ```
 
-## Sync vs async (kenapa async penting)
+## Sync vs async (why async matters)
 
-Mengambil 10 halaman berurutan (sync) memakan **~28 detik** — hampir semuanya waktu *menunggu server*, bukan kerja komputer.
+Fetching 10 pages one by one (sync) takes **~28 seconds** — almost all of it spent *waiting on the server*, not doing work.
 
-Versi async mengambil 10 halaman **bersamaan**: **~5 detik** (≈6x lebih cepat).
+The async version fetches all 10 pages **concurrently**: **~5 seconds** (≈6x faster).
 
-| Versi | Cara | 10 halaman |
-|-------|------|-----------|
-| `scraper/fetch.py` | `requests`, satu per satu | ~28 detik |
-| `scraper/async_fetch.py` | `httpx` + `asyncio.gather` | ~5 detik |
+| Version | Approach | 10 pages |
+|---------|----------|----------|
+| `scraper/fetch.py` | `requests`, one at a time | ~28s |
+| `scraper/async_fetch.py` | `httpx` + `asyncio.gather` | ~5s |
 
-Poinnya: async **tidak** mempercepat server (server tetap lambat). Async mengisi waktu tunggu dengan permintaan lain.
+The point: async does **not** make the server faster (the server stays slow). Async fills the waiting time with other requests.
 
 ## Development
 
@@ -40,16 +40,16 @@ pip install pytest requests beautifulsoup4 httpx
 pytest
 ```
 
-## Struktur
+## Structure
 
 ```
 scraper/
-  fetch.py        # ambil HTML (sync, requests)
-  parse.py        # ubah HTML -> data (murni, tanpa internet)
-  async_fetch.py  # ambil BANYAK halaman sekaligus (async, httpx)
-  cli.py          # entry: url -> fetch -> parse -> cetak
+  fetch.py        # fetch HTML (sync, requests)
+  parse.py        # turn HTML -> data (pure, no network)
+  async_fetch.py  # fetch MANY pages at once (async, httpx)
+  cli.py          # entry point: url -> fetch -> parse -> print
 tests/
-  test_parse.py   # tes parse pakai HTML contoh (tanpa internet)
+  test_parse.py   # parse tests using sample HTML (no network)
 ```
 
-`parse.py` sengaja menerima **string HTML**, bukan URL — supaya bisa dites tanpa internet dan bisa dipakai oleh `fetch` (sync) maupun `async_fetch` (async) tanpa perubahan.
+`parse.py` deliberately accepts an **HTML string**, not a URL — so it can be tested without the network and reused by both `fetch` (sync) and `async_fetch` (async) unchanged.
