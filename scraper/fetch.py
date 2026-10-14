@@ -1,9 +1,9 @@
-"""Ambil HTML dari internet."""
+"""Fetch HTML from the internet."""
 import requests
 
 
 def fetch(url):
-    """Ambil HTML dari url, balikin string HTML-nya."""
+    """Fetch HTML from url, return it as a string."""
     resp = requests.get(url, timeout=10)
     resp.raise_for_status()
     return resp.text

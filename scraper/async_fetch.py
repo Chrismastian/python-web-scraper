@@ -1,4 +1,4 @@
-"""Ambil BANYAK halaman sekaligus (async). Bandingkan dengan fetch.py yang sync."""
+"""Fetch MANY pages at once (async). Compare with the sync fetch.py."""
 import asyncio
 import time
 
@@ -6,7 +6,7 @@ import httpx
 
 
 async def fetch_one(client, url):
-    """Ambil 1 URL, balikin HTML-nya. Perhatikan 'await' di client.get."""
+    """Fetch one URL, return its HTML. Note the 'await' on client.get."""
     resp = await client.get(url)
     resp.raise_for_status()
     return resp.text
@@ -22,7 +22,7 @@ def main():
     urls = [f"https://quotes.toscrape.com/page/{i}/" for i in range(1, 11)]
     t = time.time()
     pages = asyncio.run(fetch_all(urls))
-    print(f"{len(pages)} halaman dalam {time.time() - t:.1f} detik")
+    print(f"{len(pages)} pages in {time.time() - t:.1f} seconds")
 
 
 if __name__ == "__main__":

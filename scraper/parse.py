@@ -1,6 +1,6 @@
-"""Parse HTML jadi data terstruktur.
+"""Parse HTML into structured data.
 
-Fungsi ini TERIMA STRING HTML (bukan URL) supaya bisa dites tanpa internet.
+Takes an HTML STRING (not a URL) so it can be tested without the network.
 """
 from bs4 import BeautifulSoup
 
@@ -10,8 +10,8 @@ def parse_quotes(html):
     quotes = soup.select("div.quote")
     result = []
     for q in quotes:
-     text   = q.select_one("span.text").get_text(strip=True)
-     author = q.select_one("small.author").get_text(strip=True)
-     tags   = [t.get_text(strip=True) for t in q.select("a.tag")]
-     result.append({"text": text, "author": author, "tags": tags})
+        text = q.select_one("span.text").get_text(strip=True)
+        author = q.select_one("small.author").get_text(strip=True)
+        tags = [t.get_text(strip=True) for t in q.select("a.tag")]
+        result.append({"text": text, "author": author, "tags": tags})
     return result
